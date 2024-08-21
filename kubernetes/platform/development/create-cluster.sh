@@ -2,12 +2,11 @@
 
 echo "\n📦 Initializing Kubernetes cluster...\n"
 
-# Minikube start command is removed since we assume the Kubernetes cluster is already up
+minikube start --cpus 2 --memory 4g --driver docker --profile polar
 
 echo "\n🔌 Enabling NGINX Ingress Controller...\n"
 
-# For a non-minikube Kubernetes cluster, you need to install NGINX ingress controller manually if not already installed
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+minikube addons enable ingress --profile polar
 
 sleep 30
 
