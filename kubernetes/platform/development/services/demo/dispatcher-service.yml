@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dispatcher-service
+  labels:
+    app: dispatcher-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dispatcher-service
+  template:
+    metadata:
+      labels:
+        app: dispatcher-service
+    spec:
+      containers:
+        - name: dispatcher-service
+          image: ghcr.io/gmdcjdakdcjd/dispatcher-service:latest
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5" ]
+          ports:
+            - containerPort: 9003
+          env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service
+            - name: SPRING_RABBITMQ_HOST
+              value: polar-rabbitmq
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dispatcher-service
+  labels:
+    app: dispatcher-service
+spec:
+  type: ClusterIP
+  selector:
+    app: dispatcher-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9003
