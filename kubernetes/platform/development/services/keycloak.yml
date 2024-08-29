@@ -80,8 +80,8 @@ metadata:
     app: polar-keycloak
 spec:
   rules:
-    - host: polar-keycloak
-      http:
+#    - host: polar-keycloak
+    - http:
         paths:
           - path: /
             pathType: Prefix
