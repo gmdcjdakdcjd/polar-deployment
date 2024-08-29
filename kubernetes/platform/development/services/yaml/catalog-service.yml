@@ -4,15 +4,21 @@ metadata:
   name: catalog-service
   labels:
     app: catalog-service
+    service: catalog-service
+    version: catalog
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: catalog-service
+      service: catalog-service
+      version: catalog 
   template:
     metadata:
       labels:
         app: catalog-service
+        service: catalog-service
+        version: catalog
     spec:
       containers:
         - name: catalog-service
@@ -35,6 +41,7 @@ spec:
               value: testdata
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
               value: http://polar-keycloak/realms/PolarBookshop
+
 ---
 
 apiVersion: v1
@@ -43,11 +50,16 @@ metadata:
   name: catalog-service
   labels:
     app: catalog-service
+    service: catalog-service
+    version: catalog
 spec:
   type: ClusterIP
   selector:
     app: catalog-service
+    service: catalog-service
+    version: catalog
   ports:
     - protocol: TCP
       port: 80
+      name: http
       targetPort: 9001

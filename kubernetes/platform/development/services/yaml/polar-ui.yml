@@ -4,15 +4,21 @@ metadata:
   name: polar-ui
   labels:
     app: polar-ui
+    service: polar-ui
+    version: ui
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: polar-ui
+      service: polar-ui
+      version: ui
   template:
     metadata:
       labels:
         app: polar-ui
+        service: polar-ui
+        version: v1
     spec:
       containers:
         - name: polar-ui
@@ -36,11 +42,16 @@ metadata:
   name: polar-ui
   labels:
     app: polar-ui
+    service: polar-ui
+    version: ui
 spec:
   type: ClusterIP
   selector:
     app: polar-ui
+    service: polar-ui
+    version: ui
   ports:
     - protocol: TCP
       port: 80
+      name: http
       targetPort: 9004

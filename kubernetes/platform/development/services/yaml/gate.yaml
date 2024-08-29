@@ -1,0 +1,57 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: polar-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+---
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: polar
+  namespace: default
+spec:
+  http:
+  - match:
+    - uri:
+        prefix: /edge-service
+    route:
+    - destination:
+        host: edge-service.default.svc.cluster.local
+        port:
+          number: 80
+  # - match:
+  #   - uri:
+  #       prefix: /catalog-service
+  #   route:
+  #   - destination:
+  #       host: catalog-service.default.svc.cluster.local
+  #       port:
+  #         number: 80
+  # - match:
+  #   - uri:
+  #       prefix: /polar-keycloak
+  #   route:
+  #   - destination:
+  #       host: polar-keycloak.default.svc.cluster.local
+  #       port:
+  #         number: 80
+  # - match:
+  #   - uri:
+  #       prefix: /polar-ui
+  #   route:
+  #   - destination:
+  #       host: polar-ui.default.svc.cluster.local
+  #       port:
+  #         number: 80
